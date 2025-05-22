@@ -1,4 +1,3 @@
-// filepath: models/product.dart
 import 'package:json_annotation/json_annotation.dart';
 
 part 'simple_product.g.dart';
@@ -11,8 +10,8 @@ class SimpleProduct {
   SimpleProduct({this.name, this.brands});
 
   /// Generado automáticamente por json_serializable
-  factory SimpleProduct.fromJson(Map<String, dynamic> json) => _$ProductFromJson(json);
+  factory SimpleProduct.fromJson(Map<String, dynamic> json) => _$SimpleProductFromJson(json);
 
   /// Generado automáticamente por json_serializable
-  Map<String, dynamic> toJson() => _$ProductToJson(this);
+  Map<String, dynamic> toJson() => _$SimpleProductToJson(this);
 }

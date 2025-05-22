@@ -1,8 +1,6 @@
 import 'package:dart_frog/dart_frog.dart';
-import 'package:food_api/services/product_service.dart';
+import 'package:food_api/services/product_food_service.dart';
 
-
-/// Controlador para buscar productos por nombre
 Future<Response> searchProduct(RequestContext context) async {
   final queryParams = context.request.uri.queryParameters;
   final productName = queryParams['name'];
@@ -14,15 +12,14 @@ Future<Response> searchProduct(RequestContext context) async {
     );
   }
 
-  final products = await ProductService.searchProductByName(productName);
+  final products = await ProductFoodService.searchProductByName(productName);
 
-  // Convertir la lista de productos a JSON
   return Response.json(
     body: {'products': products.map((product) => product.toJson()).toList()},
   );
 }
 
-/// Controlador para buscar un producto por código de barras
+
 Future<Response> getProductByBarcode(RequestContext context, String barcode) async {
   if (barcode.isEmpty) {
     return Response.json(
@@ -32,10 +29,10 @@ Future<Response> getProductByBarcode(RequestContext context, String barcode) asy
   }
 
   try {
-    final product = await ProductService.searchProductByBarcode(barcode);
+    final product = await ProductFoodService.searchProductByBarcode(barcode);
 
-    // Convertir el producto a JSON
     return Response.json(body: product.toJson());
+
   } catch (e) {
     return Response.json(
       statusCode: 500,
@@ -43,9 +40,3 @@ Future<Response> getProductByBarcode(RequestContext context, String barcode) asy
     );
   }
 }
-
-
-
-
-
-

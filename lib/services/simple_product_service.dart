@@ -1,11 +1,9 @@
-// filepath: services/product_service.dart
 import 'package:food_api/config/openfood_config.dart';
 import 'package:food_api/models/simple_product.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 
-/// Servicio responsable de manejar los productos
-class ProductService {
-  /// Busca productos por su nombre en OpenFoodFacts
+
+class SimpleProductService {
   static Future<List<SimpleProduct>> searchProductByName(String productName) async {
     configureOpenFoodFacts();
 
@@ -21,7 +19,6 @@ class ProductService {
       uriHelper: uriHelperFoodTest,
     );
 
-    // Convertir los productos obtenidos a instancias de Product
     return result.products?.map((p) {
       return SimpleProduct(
         name: p.productName,
@@ -30,7 +27,6 @@ class ProductService {
     }).toList() ?? [];
   }
 
-  /// Busca un producto por su código de barras en OpenFoodFacts
   static Future<SimpleProduct> searchProductByBarcode(String barcode) async {
     configureOpenFoodFacts();
 
@@ -46,7 +42,6 @@ class ProductService {
       uriHelper: uriHelperFoodTest,
     );
 
-    // Convertir el producto obtenido a una instancia de Product
     return SimpleProduct(
       name: productResult.product?.productName ?? 'Producto no encontrado',
       brands: productResult.product?.brands ?? 'Marca no disponible',
