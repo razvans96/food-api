@@ -1,0 +1,5 @@
+INFO: 2025-06-04 21:17:22.774764: Ejecutando migración: migrations/001.sql
+INFO: 2025-06-04 21:17:22.997148: Migración completada.
+SEVERE: 2025-06-04 21:19:50.359687: El archivo migrations/001.sql no existe.
+INFO: 2025-06-04 21:20:26.623869: Ejecutando migración: migrations/001_create_users_table.sql
+INFO: 2025-06-04 21:20:26.920802: Migración completada.
