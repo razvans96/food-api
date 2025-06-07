@@ -16,3 +16,5 @@ build/
 coverage/
 
 .env
+google-service-account.json
+/logs

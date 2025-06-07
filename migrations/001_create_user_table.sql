@@ -4,5 +4,7 @@ CREATE TABLE IF NOT EXISTS users (
   user_name TEXT NOT NULL,
   user_surname TEXT,
   user_phone TEXT,
-  user_dob DATE
+  user_dob DATE,
+  user_created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  user_modified_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
