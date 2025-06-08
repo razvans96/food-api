@@ -21,24 +21,26 @@ class AppCheckService {
     } else if (platform == 'web') {
       appId = env['FIREBASE_WEB_APP_ID'];
     } else {
-      _logger.warning('Plataforma no soportada: $platform');
-      return _unauthorized('Plataforma no soportada');
+      return _unauthorized('Plataforma no soportada: $platform');
     }
 
     if (projectId == null || appId == null) {
-      _logger.severe('Faltan variables de entorno para $platform');
-      return _unauthorized('Configuración incompleta');
+      return _unauthorized('Faltan variables de entorno para $platform');
     }
 
     final client = await getFirebaseAuthClient();
-
+    _logger.info(
+        'Token del cliente autentificado de Google: ${client.credentials}',);
+    
     final url = Uri.parse(
       'https://firebaseappcheck.googleapis.com/v1/projects/$projectId/apps/$appId:exchangeDebugToken',
     );
 
     final response = await client.post(
       url,
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: jsonEncode({'debugToken': token, 'limitedUse': true}),
     );
 

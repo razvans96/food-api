@@ -5,6 +5,7 @@ import 'package:googleapis_auth/auth_io.dart';
 import 'package:logging/logging.dart';
 
 final _scopes = [
+  'https://www.googleapis.com/auth/cloud-platform',
   'https://www.googleapis.com/auth/firebase',
 ];
 final env = DotEnv()..load();
@@ -15,18 +16,14 @@ Future<AutoRefreshingAuthClient> getFirebaseAuthClient() async {
 
   final raw = env['FIREBASE_SA_BASE64'];
   if (raw == null) {
-    _logger
-        .severe('Required environment variable FIREBASE_SA_BASE64 is not set.');
     throw Exception(
         'Required environment variable FIREBASE_SA_BASE64 is not set.',);
   }
   try {
     final jsonString = utf8.decode(base64Decode(raw));
-    _logger.info(
-        'Decoded service account JSON string length: ${jsonString.length}',);
     final credentials =
         ServiceAccountCredentials.fromJson(jsonDecode(jsonString));
-    _logger.info('Service account credentials loaded successfully.');
+
     return clientViaServiceAccount(credentials, _scopes);
   } catch (e, st) {
     _logger.severe('Error decoding service account: $e\n$st');

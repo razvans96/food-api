@@ -1,32 +1,19 @@
-import 'dart:io';
-
 import 'package:dart_frog/dart_frog.dart';
 import 'package:food_api/middleware/app_check_middleware.dart';
 import 'package:food_api/middleware/cors_middleware.dart';
 import 'package:food_api/middleware/log_headers_middleware.dart';
+import 'package:food_api/services/log_service.dart';
 import 'package:logging/logging.dart';
 
+final _logService = LogService();
+
 void _setupLogging() {
-  Logger.root.level = Level.INFO;
-  final logDir = Directory('logs');
-  if (!logDir.existsSync()) {
-    logDir.createSync(recursive: true);
-  }
-  Logger.root.onRecord.listen((record) {
-    String fileName;
-    if (record.loggerName == 'FirebaseServiceAccount') {
-      fileName = 'logs/firebase_service_account.log';
-    } else if (record.loggerName == 'AppCheckValidator') {
-      fileName = 'logs/app_check.log';
-    } else if (record.loggerName == 'HeadersLogger') {
-      fileName = 'logs/headers.log';
-    } else {
-      fileName = 'logs/general.log';
-    }
-    final logFile = File(fileName);
-    final logLine =
-        '${record.level.name}: ${record.time}: ${record.loggerName}: ${record.message}\n';
-    logFile.writeAsStringSync(logLine, mode: FileMode.append);
+  Logger.root.onRecord.listen((record) async {
+    await _logService.insertLog(
+      level: record.level.name,
+      loggerName: record.loggerName,
+      message: record.message,
+    );
   });
 }
 
@@ -36,5 +23,4 @@ Handler middleware(Handler handler) {
       .use(appCheckMiddleware)
       .use(logHeadersMiddleware)
       .use(corsMiddleware);
-
 }

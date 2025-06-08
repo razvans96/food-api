@@ -17,4 +17,5 @@ coverage/
 
 .env
 google-service-account.json
+google-service-account.txt
 /logs
