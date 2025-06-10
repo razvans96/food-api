@@ -1,7 +1,5 @@
 import 'package:dart_frog/dart_frog.dart';
-import 'package:food_api/middleware/app_check_middleware.dart';
 import 'package:food_api/middleware/cors_middleware.dart';
-import 'package:food_api/middleware/log_headers_middleware.dart';
 import 'package:food_api/services/log_service.dart';
 import 'package:logging/logging.dart';
 
@@ -20,7 +18,5 @@ void _setupLogging() {
 Handler middleware(Handler handler) {
   _setupLogging();
   return handler
-      .use(appCheckMiddleware)
-      .use(logHeadersMiddleware)
-      .use(corsMiddleware);
+    .use(corsMiddleware);
 }

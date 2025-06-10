@@ -13,7 +13,7 @@ class AppCheckService {
     Logger.root.level = Level.INFO;
 
     final env = DotEnv()..load();
-    final projectId = env['FIREBASE_PROJECT_ID'];
+    final projectNumber = env['FIREBASE_PROJECT_NUMBER'];
     String? appId;
 
     if (platform == 'android') {
@@ -24,23 +24,18 @@ class AppCheckService {
       return _unauthorized('Plataforma no soportada: $platform');
     }
 
-    if (projectId == null || appId == null) {
+    if (projectNumber == null || appId == null) {
       return _unauthorized('Faltan variables de entorno para $platform');
     }
 
     final client = await getFirebaseAuthClient();
-    _logger.info(
-        'Token del cliente autentificado de Google: ${client.credentials}',);
-    
+
     final url = Uri.parse(
-      'https://firebaseappcheck.googleapis.com/v1/projects/$projectId/apps/$appId:exchangeDebugToken',
+      'https://firebaseappcheck.googleapis.com/v1/projects/$projectNumber/apps/$appId:exchangeDebugToken',
     );
 
     final response = await client.post(
       url,
-      headers: {
-        'Content-Type': 'application/json',
-      },
       body: jsonEncode({'debugToken': token, 'limitedUse': true}),
     );
 
