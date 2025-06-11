@@ -1,5 +1,5 @@
 import 'package:dotenv/dotenv.dart';
-import 'package:food_api/config/firebase_service_account.dart';
+import 'package:food_api/utils/firebase_service_account.dart';
 import 'package:logging/logging.dart';
 
 class AuthTest {

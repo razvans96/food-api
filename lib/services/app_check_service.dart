@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'package:dotenv/dotenv.dart';
-import 'package:food_api/config/firebase_service_account.dart';
+import 'package:food_api/utils/firebase_service_account.dart';
 import 'package:logging/logging.dart';
+import 'package:food_api/config/app_config.dart';
 
 class AppCheckService {
   final String platform;
@@ -12,20 +12,15 @@ class AppCheckService {
   Future<bool> isValid(String token) async {
     Logger.root.level = Level.INFO;
 
-    final env = DotEnv()..load();
-    final projectNumber = env['FIREBASE_PROJECT_NUMBER'];
+    final projectNumber = AppConfig.firebaseProjectNumber;
     String? appId;
 
     if (platform == 'android') {
-      appId = env['FIREBASE_ANDROID_APP_ID'];
+      appId = AppConfig.firebaseAndroidAppId;
     } else if (platform == 'web') {
-      appId = env['FIREBASE_WEB_APP_ID'];
+      appId = AppConfig.firebaseWebAppId;
     } else {
       return _unauthorized('Plataforma no soportada: $platform');
-    }
-
-    if (projectNumber == null || appId == null) {
-      return _unauthorized('Faltan variables de entorno para $platform');
     }
 
     final client = await getFirebaseAuthClient();
@@ -40,7 +35,8 @@ class AppCheckService {
     );
 
     _logger.info(
-        'Plataforma: $platform, Status: ${response.statusCode}, Body: ${response.body}',);
+      'Plataforma: $platform, Status: ${response.statusCode}, Body: ${response.body}',
+    );
 
     client.close();
     return response.statusCode == 200;

@@ -4,10 +4,6 @@ on:
   push:
     branches: [ main ]
 
-permissions:
-  contents: read
-  id-token: write
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -32,7 +28,7 @@ jobs:
       run:  |-
         gcloud auth configure-docker
         gcloud auth configure-docker europe-west1-docker.pkg.dev
-        
+
     - name: Build and push Docker image
       run: |
         docker build -t europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/food-api/food-api .

@@ -1,4 +1,4 @@
-import 'package:dotenv/dotenv.dart';
+import 'package:food_api/config/app_config.dart';
 import 'package:postgres/postgres.dart';
 
 class PostgresConnectionManager {
@@ -8,14 +8,13 @@ class PostgresConnectionManager {
     if (_connection != null && _connection!.isOpen) {
       return _connection!;
     }
-    final env = DotEnv()..load();
     _connection = await Connection.open(
       Endpoint(
-        host: env['DB_HOST'] ?? 'localhost',
-        port: int.tryParse(env['DB_PORT'] ?? '5432') ?? 5432,
-        database: env['DB_NAME'] ?? 'my_database',
-        username: env['DB_USER'] ?? 'user',
-        password: env['DB_PASSWORD'] ?? 'password',
+        host: AppConfig.dbHost,
+        port: AppConfig.dbPort,
+        database: AppConfig.dbName,
+        username: AppConfig.dbUser,
+        password: AppConfig.dbPassword,
       ),
     );
     return _connection!;
