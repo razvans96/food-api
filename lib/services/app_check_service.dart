@@ -1,7 +1,8 @@
 import 'dart:convert';
+
+import 'package:food_api/config/app_config.dart';
 import 'package:food_api/utils/firebase_service_account.dart';
 import 'package:logging/logging.dart';
-import 'package:food_api/config/app_config.dart';
 
 class AppCheckService {
   final String platform;

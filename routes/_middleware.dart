@@ -1,6 +1,7 @@
 import 'package:dart_frog/dart_frog.dart';
-import 'package:food_api/middleware/cors_middleware.dart';
-import 'package:food_api/services/log_service.dart';
+import 'package:food_api/shared/middleware/cors_middleware.dart';
+import 'package:food_api/shared/middleware/dependency_injection_middleware.dart';
+import 'package:food_api/shared/utils/log_service.dart';
 import 'package:logging/logging.dart';
 
 final _logService = LogService();
@@ -18,5 +19,6 @@ void _setupLogging() {
 Handler middleware(Handler handler) {
   _setupLogging();
   return handler
-    .use(corsMiddleware);
+    .use(corsMiddleware)
+    .use(dependencyInjectionMiddleware);
 }

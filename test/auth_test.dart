@@ -1,8 +1,10 @@
 // ignore_for_file: avoid_print
 import 'dart:convert';
-import 'utils/auth_test.dart';
+
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
+
+import 'utils/auth_test.dart';
 
 void main() {
 
