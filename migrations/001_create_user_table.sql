@@ -5,6 +5,6 @@ CREATE TABLE IF NOT EXISTS users (
   user_surname TEXT,
   user_phone TEXT,
   user_dob DATE,
-  user_created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  user_modified_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  user_created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  user_modified_at TIMESTAMP WITH TIME ZONE,
 );

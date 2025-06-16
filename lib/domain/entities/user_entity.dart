@@ -11,6 +11,7 @@ class UserEntity {
   final String? phone;
   final DateTime? dateOfBirth;
   final DateTime createdAt;
+  final DateTime? updatedAt;
 
   const UserEntity({
     required this.id,
@@ -20,8 +21,10 @@ class UserEntity {
     this.surname,
     this.phone,
     this.dateOfBirth,
+    this.updatedAt,
   });
 
+  // Métodos de dominio (lógica de negocio)
   bool hasCompleteProfile() {
     return name != null && 
            surname != null && 
@@ -42,7 +45,11 @@ class UserEntity {
 
   String get fullName => '${name ?? ''} ${surname ?? ''}'.trim();
 
-
+  UserEntity touch() {
+    return copyWith(updatedAt: DateTime.now());
+  }
+  
+  // Método para crear una copia del objeto con algunos campos modificados para mantener immutabilidad
   UserEntity copyWith({
     UserId? id,
     Email? email,
@@ -51,6 +58,7 @@ class UserEntity {
     String? phone,
     DateTime? dateOfBirth,
     DateTime? createdAt,
+    DateTime? updatedAt,
   }) {
     return UserEntity(
       id: id ?? this.id,
@@ -60,6 +68,7 @@ class UserEntity {
       phone: phone ?? this.phone,
       dateOfBirth: dateOfBirth ?? this.dateOfBirth,
       createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 

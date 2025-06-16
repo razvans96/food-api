@@ -107,7 +107,7 @@ class UserRepositoryImpl implements UserRepository {
           userModel.userSurname,
           userModel.userPhone,
           userModel.userDob,
-          userModel.createdAt ?? DateTime.now(),
+          userModel.userCreatedAt ?? DateTime.now(),
         ],
       );
     } finally {

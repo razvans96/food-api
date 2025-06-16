@@ -27,8 +27,11 @@ class UserModel {
   @JsonKey(name: 'user_dob')
   final String? userDob;
   
-  @JsonKey(name: 'created_at')
-  final DateTime? createdAt;
+  @JsonKey(name: 'user_created_at')
+  final DateTime? userCreatedAt;
+
+  @JsonKey(name: 'user_updated_at')
+  final DateTime? userUpdatedAt;
 
   const UserModel({
     required this.userUid,
@@ -37,7 +40,8 @@ class UserModel {
     this.userSurname,
     this.userPhone,
     this.userDob,
-    this.createdAt,
+    this.userCreatedAt,
+    this.userUpdatedAt,
   });
 
   
@@ -56,7 +60,8 @@ class UserModel {
       userSurname: row[3] as String?,
       userPhone: row[4] as String?,
       userDob: row[5] as String?,
-      createdAt: row.length > 6 ? row[6] as DateTime? : null,
+      userCreatedAt: row.length > 6 ? row[6] as DateTime? : null,
+      userUpdatedAt: row.length > 7 ? row[7] as DateTime? : null,
     );
   }
 
@@ -69,7 +74,8 @@ class UserModel {
       surname: userSurname,
       phone: userPhone,
       dateOfBirth: userDob != null ? DateTime.tryParse(userDob!) : null,
-      createdAt: createdAt ?? DateTime.now(),
+      createdAt: userCreatedAt ?? DateTime.now(),
+      updatedAt: userUpdatedAt ?? DateTime.now(),
     );
   }
 
@@ -82,7 +88,7 @@ class UserModel {
       userSurname: entity.surname,
       userPhone: entity.phone,
       userDob: entity.dateOfBirth?.toIso8601String(),
-      createdAt: entity.createdAt,
+      userCreatedAt: entity.createdAt,
     );
   }
 

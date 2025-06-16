@@ -21,3 +21,15 @@ class UserNotFoundFailure extends DomainFailure {
 class UserAlreadyExistsFailure extends DomainFailure {
   const UserAlreadyExistsFailure([super.message = 'Usuario ya existe']);
 }
+
+class InvalidBarcodeFailure extends DomainFailure {
+  const InvalidBarcodeFailure(super.message);
+}
+
+class ProductNotFoundFailure extends DomainFailure {
+  const ProductNotFoundFailure([super.message = 'Producto no encontrado']);
+}
+
+class ExternalServiceFailure extends DomainFailure {
+  const ExternalServiceFailure(super.message);
+}
