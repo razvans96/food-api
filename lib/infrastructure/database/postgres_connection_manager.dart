@@ -1,4 +1,5 @@
-import 'package:food_api/config/app_config.dart';
+
+import 'package:food_api/infrastructure/config/app_config.dart';
 import 'package:postgres/postgres.dart';
 
 class PostgresConnectionManager {

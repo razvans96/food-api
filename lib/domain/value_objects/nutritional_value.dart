@@ -1,9 +1,14 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
+part 'nutritional_value.g.dart';
+
+@JsonSerializable(explicitToJson: true)
 @immutable
 class NutritionalValues {
   final EnergyValue? energy;
   final NutrientValue? fat;
+  @JsonKey(name: 'saturated_fat')
   final NutrientValue? saturatedFat;
   final NutrientValue? carbohydrates;
   final NutrientValue? sugars;
@@ -13,6 +18,7 @@ class NutritionalValues {
   final NutrientValue? sodium;
   final NutrientValue? calcium;
   final NutrientValue? iron;
+  @JsonKey(name: 'vitamin_c')
   final NutrientValue? vitaminC;
 
   const NutritionalValues({
@@ -30,166 +36,56 @@ class NutritionalValues {
     this.vitaminC,
   });
 
-    Map<String, dynamic> toStorageJson() {
-    return {
-      'energy': energy != null ? {
-        'value_kj': energy!.valueKj,
-        'value_kcal': energy!.valueKcal,
-      } : null,
-      'fat': fat != null ? {
-        'value': fat!.value,
-        'unit': fat!.unit,
-        'per_100g': fat!.per100g,
-        'per_serving': fat!.perServing,
-      } : null,
-      'saturated_fat': saturatedFat != null ? {
-        'value': saturatedFat!.value,
-        'unit': saturatedFat!.unit,
-        'per_100g': saturatedFat!.per100g,
-        'per_serving': saturatedFat!.perServing,
-      } : null,
-      'carbohydrates': carbohydrates != null ? {
-        'value': carbohydrates!.value,
-        'unit': carbohydrates!.unit,
-        'per_100g': carbohydrates!.per100g,
-        'per_serving': carbohydrates!.perServing,
-      } : null,
-      'sugars': sugars != null ? {
-        'value': sugars!.value,
-        'unit': sugars!.unit,
-        'per_100g': sugars!.per100g,
-        'per_serving': sugars!.perServing,
-      } : null,
-      'fiber': fiber != null ? {
-        'value': fiber!.value,
-        'unit': fiber!.unit,
-        'per_100g': fiber!.per100g,
-        'per_serving': fiber!.perServing,
-      } : null,
-      'proteins': proteins != null ? {
-        'value': proteins!.value,
-        'unit': proteins!.unit,
-        'per_100g': proteins!.per100g,
-        'per_serving': proteins!.perServing,
-      } : null,
-      'salt': salt != null ? {
-        'value': salt!.value,
-        'unit': salt!.unit,
-        'per_100g': salt!.per100g,
-        'per_serving': salt!.perServing,
-      } : null,
-      'sodium': sodium != null ? {
-        'value': sodium!.value,
-        'unit': sodium!.unit,
-        'per_100g': sodium!.per100g,
-        'per_serving': sodium!.perServing,
-      } : null,
-      'calcium': calcium != null ? {
-        'value': calcium!.value,
-        'unit': calcium!.unit,
-        'per_100g': calcium!.per100g,
-        'per_serving': calcium!.perServing,
-      } : null,
-      'iron': iron != null ? {
-        'value': iron!.value,
-        'unit': iron!.unit,
-        'per_100g': iron!.per100g,
-        'per_serving': iron!.perServing,
-      } : null,
-      'vitamin_c': vitaminC != null ? {
-        'value': vitaminC!.value,
-        'unit': vitaminC!.unit,
-        'per_100g': vitaminC!.per100g,
-        'per_serving': vitaminC!.perServing,
-      } : null,
-    };
-  }
+  factory NutritionalValues.fromJson(Map<String, dynamic> json) => 
+      _$NutritionalValuesFromJson(json);
 
-  factory NutritionalValues.fromStorageJson(Map<String, dynamic> json) {
-  return NutritionalValues(
-    energy: _extractEnergy(json['energy']),
-    fat: _extractNutrient(json['fat']),
-    saturatedFat: _extractNutrient(json['saturated_fat']),
-    carbohydrates: _extractNutrient(json['carbohydrates']),
-    sugars: _extractNutrient(json['sugars']),
-    fiber: _extractNutrient(json['fiber']),
-    proteins: _extractNutrient(json['proteins']),
-    salt: _extractNutrient(json['salt']),
-    sodium: _extractNutrient(json['sodium']),
-    calcium: _extractNutrient(json['calcium']),
-    iron: _extractNutrient(json['iron']),
-    vitaminC: _extractNutrient(json['vitamin_c']),
-  );
-}
+  Map<String, dynamic> toJson() => _$NutritionalValuesToJson(this);
 
-static EnergyValue? _extractEnergy(dynamic energyData) {
-  if (energyData == null) return null;
-  
-  try {
-    final data = energyData as Map<String, dynamic>;
-    return EnergyValue(
-      valueKj: _safeDouble(data['value_kj']) ?? 0.0,
-      valueKcal: _safeDouble(data['value_kcal']) ?? 0.0,
-    );
-  } catch (e) {
-    return null;
-  }
-}
-
-static NutrientValue? _extractNutrient(dynamic nutrientData) {
-  if (nutrientData == null) return null;
-  
-  try {
-    final data = nutrientData as Map<String, dynamic>;
-    return NutrientValue(
-      value: _safeDouble(data['value']) ?? 0.0,
-      unit: data['unit']?.toString() ?? 'g',
-      per100g: _safeDouble(data['per_100g']),
-      perServing: _safeDouble(data['per_serving']),
-    );
-  } catch (e) {
-    return null;
-  }
-}
-
-static double? _safeDouble(dynamic value) {
-  if (value == null) return null;
-  if (value is double) return value;
-  if (value is int) return value.toDouble();
-  if (value is String) return double.tryParse(value);
-  return null;
-}
-
-
-  // Método para contexto IA (future release)
+  // Método para contexto IA (future release) asumimos unidad siempre en gramos
+  // para mantener contexto reducido. De momento Openfood devuelve siempre gramno
   Map<String, dynamic> toAIContext() {
     return {
       'energy_kcal': energy?.valueKcal,
       'energy_kj': energy?.valueKj,
       'macronutrients': {
-        'carbohydrates_g': carbohydrates?.per100g,
-        'proteins_g': proteins?.per100g,
-        'fat_g': fat?.per100g,
-        'saturated_fat_g': saturatedFat?.per100g,
-        'sugars_g': sugars?.per100g,
-        'fiber_g': fiber?.per100g,
+        if (carbohydrates != null)
+          'carbohydrates_${carbohydrates!.unit}': carbohydrates!.value,
+        if (proteins != null)
+          'proteins_${proteins!.unit}': proteins!.value,
+        if (fat != null)
+          'fat_${fat!.unit}': fat!.value,
+        if (saturatedFat != null)
+          'saturated_fat_${saturatedFat!.unit}': saturatedFat!.value,
+        if (sugars != null)
+          'sugars_${sugars!.unit}': sugars!.value,
+        if (fiber != null)
+          'fiber_${fiber!.unit}': fiber!.value,
       },
       'minerals': {
-        'sodium_mg': sodium?.per100g,
-        'salt_g': salt?.per100g,
-        'calcium_mg': calcium?.per100g,
-        'iron_mg': iron?.per100g,
+        if (sodium != null)
+          'sodium_${sodium!.unit}': sodium!.value,
+        if (salt != null)
+          'salt_${salt!.unit}': salt!.value,
+        if (calcium != null)
+          'calcium_${calcium!.unit}': calcium!.value,
+        if (iron != null)
+          'iron_${iron!.unit}': iron!.value,
       },
       'vitamins': {
-        'vitamin_c_mg': vitaminC?.per100g,
+        if (vitaminC != null)
+          'vitamin_c_${vitaminC!.unit}': vitaminC!.value,
       },
     };
   }
 }
 
+@JsonSerializable()
 @immutable
 class EnergyValue {
+  @JsonKey(name: 'value_kj')
   final double valueKj;
+
+  @JsonKey(name: 'value_kcal')
   final double valueKcal;
 
   const EnergyValue({required this.valueKj, required this.valueKcal});
@@ -207,19 +103,27 @@ class EnergyValue {
       valueKcal: kcal,
     );
   }
+
+  factory EnergyValue.fromJson(Map<String, dynamic> json) => 
+      _$EnergyValueFromJson(json);
+
+  Map<String, dynamic> toJson() => _$EnergyValueToJson(this);
 }
 
+@JsonSerializable()
 @immutable
 class NutrientValue {
   final double value;
   final String unit;
-  final double? per100g;
-  final double? perServing;
+
 
   const NutrientValue({
     required this.value,
     required this.unit,
-    this.per100g,
-    this.perServing,
   });
+
+  factory NutrientValue.fromJson(Map<String, dynamic> json) => 
+      _$NutrientValueFromJson(json);
+
+  Map<String, dynamic> toJson() => _$NutrientValueToJson(this);
 }

@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS products (
     product_ingredients JSONB,
     product_allergens JSONB,
     product_additives JSONB,
-    product_categories JSONB
+    product_categories JSONB,
     product_created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    product_updated_at TIMESTAMP WITH TIME ZONE,
+    product_updated_at TIMESTAMP WITH TIME ZONE
 );

@@ -1,4 +1,4 @@
-import 'package:food_api/repositories/log_repository.dart';
+import 'package:food_api/shared/utils/log_repository.dart';
 
 class LogService {
   

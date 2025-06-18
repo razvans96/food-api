@@ -91,7 +91,7 @@ class ProductModel {
       productCreatedAt: entity.createdAt,
       productUpdatedAt: entity.updatedAt,
       productNutritionalData: entity.nutritionalValues != null 
-          ? json.encode(entity.nutritionalValues!.toStorageJson()) 
+          ? json.encode(entity.nutritionalValues!.toJson()) 
           : null,
       productIngredients: entity.ingredients != null 
           ? json.encode(entity.ingredients) 
@@ -105,6 +105,26 @@ class ProductModel {
       productCategories: entity.categories != null 
           ? json.encode(entity.categories) 
           : null,
+    );
+  }
+
+  factory ProductModel.fromPostgres(Map<String, dynamic> postgresData) {
+    return ProductModel(
+      productBarcode: postgresData['product_barcode'] as String?,
+      productName: postgresData['product_name'] as String?,
+      productBrand: postgresData['product_brand'] as String?,
+      productQuantity: postgresData['product_quantity'] as String?,
+      productNutriscoreGrade: postgresData['product_nutriscore_grade'] as String?,
+      productEcoscoreGrade: postgresData['product_ecoscore_grade'] as String?,
+      productImageUrl: postgresData['product_image_url'] as String?,
+      productNovaGroup: postgresData['product_nova_group'] as int?,
+      productCreatedAt: postgresData['product_created_at'] as DateTime?,
+      productUpdatedAt: postgresData['product_updated_at'] as DateTime?,
+      productNutritionalData: _serializeJsonbField(postgresData['product_nutritional_data']),
+      productIngredients: _serializeJsonbField(postgresData['product_ingredients']),
+      productAllergens: _serializeJsonbField(postgresData['product_allergens']),
+      productAdditives: _serializeJsonbField(postgresData['product_additives']),
+      productCategories: _serializeJsonbField(postgresData['product_categories']),
     );
   }
 
@@ -134,30 +154,37 @@ class ProductModel {
     
     try {
       final data = json.decode(productNutritionalData!) as Map<String, dynamic>;
-      return NutritionalValues.fromStorageJson(data);
+      return NutritionalValues.fromJson(data);
     } catch (e) {
       return null;
     }
   }
 
   List<String>? _deserializeStringList(String? jsonString) {
-  if (jsonString?.isNotEmpty != true) return null;
-  
-  try {
-    final decoded = json.decode(jsonString!);
-  
-    if (decoded is List) {
-      return decoded
-          .where((item) => item != null)
-          .map((item) => item.toString())
-          .toList();
-    }
+    if (jsonString?.isNotEmpty != true) return null;
     
-    return null;
-  } catch (e) {
-    return null;
+    try {
+      final decoded = json.decode(jsonString!);
+    
+      if (decoded is List) {
+        return decoded
+            .where((item) => item != null)
+            .map((item) => item.toString())
+            .toList();
+      }
+      
+      return null;
+    } catch (e) {
+      return null;
+    }
   }
-}
+  
+  static String? _serializeJsonbField(dynamic value) {
+    if (value == null) return null;
+    if (value is String) return value;
+    if (value is Map || value is List) return json.encode(value);
+    return value.toString();
+  }
 
   @override
   bool operator ==(Object other) =>

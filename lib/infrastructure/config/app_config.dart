@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:food_api/utils/env.dart';
+import 'package:food_api/shared/utils/env.dart';
 
 class AppConfig {
   static final firebaseProjectId = getEnv('FIREBASE_PROJECT_ID');

@@ -1,5 +1,5 @@
 import 'package:dart_frog/dart_frog.dart';
-import 'package:food_api/services/app_check_service.dart';
+import 'package:food_api/shared/utils/app_check_service.dart';
 
 Handler appCheckMiddleware(Handler handler) {
   return (context) async {

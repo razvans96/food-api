@@ -3,3 +3,29 @@ INFO: 2025-06-04 21:17:22.997148: Migración completada.
 SEVERE: 2025-06-04 21:19:50.359687: El archivo migrations/001.sql no existe.
 INFO: 2025-06-04 21:20:26.623869: Ejecutando migración: migrations/001_create_users_table.sql
 INFO: 2025-06-04 21:20:26.920802: Migración completada.
+INFO: 2025-06-16 23:34:45.924492: Ejecutando migración: migrations/003_create_product_table.sql
+INFO: 2025-06-16 23:37:12.528651: Ejecutando migración: migrations/003_create_product_table.sql
+INFO: 2025-06-16 23:37:12.769499: Migración completada.
+SEVERE: 2025-06-16 23:41:06.562160: El archivo migrations/004_create_product_table.sql no existe.
+SEVERE: 2025-06-16 23:45:57.240429: El archivo migrations/004_create_product_indexes.sql no existe.
+INFO: 2025-06-16 23:46:31.388291: Ejecutando migración: migrations/004_create_product_indexes.sql
+INFO: 2025-06-16 23:51:13.148856: Ejecutando migración: migrations/004_create_product_indexes.sql
+INFO: 2025-06-16 23:51:13.149856: Ejecutando comando 1/9: CREATE INDEX IF NOT EXISTS idx_products_name ON pr...
+INFO: 2025-06-16 23:51:13.268529: [V] Comando 1 ejecutado correctamente
+INFO: 2025-06-16 23:51:13.268529: Ejecutando comando 2/9: CREATE INDEX IF NOT EXISTS idx_products_brand ON p...
+INFO: 2025-06-16 23:51:13.372145: [V] Comando 2 ejecutado correctamente
+INFO: 2025-06-16 23:51:13.372145: Ejecutando comando 3/9: CREATE INDEX IF NOT EXISTS idx_products_nutriscore...
+INFO: 2025-06-16 23:51:13.475008: [V] Comando 3 ejecutado correctamente
+INFO: 2025-06-16 23:51:13.476012: Ejecutando comando 4/9: CREATE INDEX IF NOT EXISTS idx_products_created_at...
+INFO: 2025-06-16 23:51:13.579888: [V] Comando 4 ejecutado correctamente
+INFO: 2025-06-16 23:51:13.580902: Ejecutando comando 5/9: CREATE INDEX IF NOT EXISTS idx_products_additives_...
+INFO: 2025-06-16 23:51:13.687078: [V] Comando 5 ejecutado correctamente
+INFO: 2025-06-16 23:51:13.688085: Ejecutando comando 6/9: CREATE INDEX IF NOT EXISTS idx_products_allergens_...
+INFO: 2025-06-16 23:51:13.794094: [V] Comando 6 ejecutado correctamente
+INFO: 2025-06-16 23:51:13.795130: Ejecutando comando 7/9: CREATE INDEX IF NOT EXISTS idx_products_categories...
+INFO: 2025-06-16 23:51:13.897851: [V] Comando 7 ejecutado correctamente
+INFO: 2025-06-16 23:51:13.898864: Ejecutando comando 8/9: CREATE INDEX IF NOT EXISTS idx_products_ingredient...
+INFO: 2025-06-16 23:51:14.003021: [V] Comando 8 ejecutado correctamente
+INFO: 2025-06-16 23:51:14.003021: Ejecutando comando 9/9: CREATE INDEX IF NOT EXISTS idx_products_nutritiona...
+INFO: 2025-06-16 23:51:14.117765: [V] Comando 9 ejecutado correctamente
+INFO: 2025-06-16 23:51:14.118780: Migración completada exitosamente.

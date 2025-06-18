@@ -94,8 +94,8 @@ class OpenFoodFactsProductDto {
       barcode: barcode != null ? Barcode(barcode!) : null,
       brand: brands,
       quantity: quantity,
-      nutriscoreGrade: nutriscoreGrade,
-      ecoscoreGrade: ecoscoreGrade,
+      nutriscoreGrade: _sanitizeScore(nutriscoreGrade),
+      ecoscoreGrade: _sanitizeScore(ecoscoreGrade),
       imageUrl: imageFrontSmallUrl,
       novaGroup: novaGroup,
       createdAt: DateTime.now(),
@@ -142,18 +142,28 @@ class OpenFoodFactsProductDto {
   }
 
   NutrientValue? _extractNutrient(String nutrientName) {
-    final value = nutriments?['${nutrientName}_value'];
-    final unit = nutriments?['${nutrientName}_unit'] ?? 'g';
-    final value100g = nutriments?['${nutrientName}_100g'];
-    final valueServing = nutriments?['${nutrientName}_serving'];
+    // La consulta a Openfood siempre da valores por 100g en gramos
+    final value = nutriments?['${nutrientName}_100g'];
+    const unit = 'g';
+
 
     if (value != null && value is num) {
       return NutrientValue(
         value: value.toDouble(),
-        unit: unit.toString(),
-        per100g: value100g is num ? value100g.toDouble() : null,
-        perServing: valueServing is num ? valueServing.toDouble() : null,
+        unit: unit,
       );
+    }
+    
+    return null;
+  }
+
+  String? _sanitizeScore(String? score) {
+    if (score == null || score.isEmpty) return null;
+    
+    final cleanScore = score.toLowerCase().trim();
+    
+    if (['a', 'b', 'c', 'd', 'e'].contains(cleanScore)) {
+      return cleanScore;
     }
     
     return null;

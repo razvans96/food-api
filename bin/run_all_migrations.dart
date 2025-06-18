@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:food_api/db/postgres_connection_manager.dart';
+import 'package:food_api/infrastructure/database/postgres_connection_manager.dart';
 import 'package:logging/logging.dart';
 
 final _logger = Logger('MigrationAll');
