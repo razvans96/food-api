@@ -9,7 +9,6 @@ class Barcode {
       throw const InvalidBarcodeFailure('Código de barras no puede estar vacío');
     }
     
-    // Validación básica: solo números y longitud típica (8-14 dígitos)
     final cleanBarcode = barcode.trim();
     final numericRegex = RegExp(r'^\d{8,14}$');
     

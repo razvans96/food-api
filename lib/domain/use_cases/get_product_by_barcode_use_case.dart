@@ -8,14 +8,8 @@ class GetProductByBarcodeUseCase {
   GetProductByBarcodeUseCase(this._repository);
 
   Future<ProductEntity?> execute(String barcodeValue) async {
-    try {
-      final barcode = Barcode(barcodeValue);
-      
-      final product = await _repository.getProductByBarcode(barcode);
-      
-      return product;
-    } catch (e) {
-      rethrow;
-    }
+    final barcode = Barcode(barcodeValue);
+    final product = await _repository.getProductByBarcode(barcode);
+    return product;
   }
 }

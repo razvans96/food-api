@@ -11,8 +11,8 @@ CreateUserRequestDto _$CreateUserRequestDtoFromJson(
     CreateUserRequestDto(
       userUid: json['user_uid'] as String,
       userEmail: json['user_email'] as String,
-      userName: json['user_name'] as String?,
-      userSurname: json['user_surname'] as String?,
+      userName: json['user_name'] as String,
+      userSurname: json['user_surname'] as String,
       userPhone: json['user_phone'] as String?,
       userDob: json['user_dob'] as String?,
     );

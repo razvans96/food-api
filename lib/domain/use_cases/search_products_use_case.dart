@@ -7,16 +7,7 @@ class SearchProductsUseCase {
   SearchProductsUseCase(this._repository);
 
   Future<List<ProductEntity>> execute(String searchTerm) async {
-    try {
-      if (searchTerm.trim().isEmpty) {
-        throw ArgumentError('El término de búsqueda no puede estar vacío');
-      }
-
-      final products = await _repository.searchProductsByName(searchTerm.trim());
-      
-      return products;
-    } catch (e) {
-      rethrow;
-    }
+    final products = await _repository.searchProductsByName(searchTerm.trim());
+    return products;
   }
 }

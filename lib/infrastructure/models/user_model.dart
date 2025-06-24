@@ -54,15 +54,17 @@ class UserModel {
   // Conversión desde Database Row
   factory UserModel.fromDatabaseRow(List<dynamic> row) {
     return UserModel(
-      userUid: row[0] as String,
-      userEmail: row[1] as String,
-      userName: row[2] as String?,
-      userSurname: row[3] as String?,
-      userPhone: row[4] as String?,
-      userDob: row[5] as String?,
-      userCreatedAt: row.length > 6 ? row[6] as DateTime? : null,
-      userUpdatedAt: row.length > 7 ? row[7] as DateTime? : null,
-    );
+    userUid: row[0] as String,
+    userEmail: row[1] as String,
+    userName: row[2] as String?,
+    userSurname: row[3] as String?,
+    userPhone: row[4] as String?,
+    userDob: row[5] != null 
+        ? (row[5] as DateTime).toIso8601String() 
+        : null,
+    userCreatedAt: row.length > 6 ? row[6] as DateTime? : null,
+    userUpdatedAt: row.length > 7 ? row[7] as DateTime? : null,
+  );
   }
 
   // Conversión hacia Domain Entity

@@ -7,16 +7,7 @@ class SaveProductUseCase {
   SaveProductUseCase(this._repository);
 
   Future<bool> execute(ProductEntity product) async {
-    try {
-      if (product.barcode == null) {
-        throw ArgumentError('El producto debe tener un código de barras para guardarse');
-      }
-
-      final success = await _repository.saveProduct(product);
-      
-      return success;
-    } catch (e) {
-      rethrow;
-    }
+    final success = await _repository.saveProduct(product);
+    return success;
   }
 }

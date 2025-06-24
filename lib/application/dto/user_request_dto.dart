@@ -11,10 +11,10 @@ class CreateUserRequestDto {
   final String userEmail;
   
   @JsonKey(name: 'user_name')
-  final String? userName;
+  final String userName;
   
   @JsonKey(name: 'user_surname')
-  final String? userSurname;
+  final String userSurname;
   
   @JsonKey(name: 'user_phone')
   final String? userPhone;
@@ -25,8 +25,8 @@ class CreateUserRequestDto {
   const CreateUserRequestDto({
     required this.userUid,
     required this.userEmail,
-    this.userName,
-    this.userSurname,
+    required this.userName,
+    required this.userSurname,
     this.userPhone,
     this.userDob,
   });
