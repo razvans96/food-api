@@ -6,50 +6,50 @@ import 'package:meta/meta.dart';
 class UserEntity {
   final UserId id;
   final Email email;
-  final String? name;
-  final String? surname;
+  final String name;
+  final String surname;
+  final DateTime dateOfBirth;
   final String? phone;
-  final DateTime? dateOfBirth;
-  final DateTime createdAt;
+  final List<String>? dietaryRestrictions;
+  final DateTime? createdAt;
   final DateTime? updatedAt;
 
   const UserEntity({
     required this.id,
     required this.email,
-    required this.createdAt, 
-    this.name,
-    this.surname,
+    required this.name,
+    required this.surname,
+    required this.dateOfBirth,
     this.phone,
-    this.dateOfBirth,
+    this.dietaryRestrictions,
+    this.createdAt,
     this.updatedAt,
   });
 
-  // Métodos de dominio (lógica de negocio)
-  bool hasCompleteProfile() {
-    return name != null && 
-           surname != null && 
-           phone != null && 
-           dateOfBirth != null;
+  int get profileCompletenessPercentage {
+    
+    var percentage = 60;
+    
+    if (phone != null) percentage += 20;
+    if (dietaryRestrictions != null) {
+      percentage += 20;
+    }
+    
+    return percentage;
   }
 
-  bool isAdult() {
-    if (dateOfBirth == null) return false;
+  bool get isAdult {
     final now = DateTime.now();
-    final age = now.year - dateOfBirth!.year;
-    if (now.month < dateOfBirth!.month || 
-        (now.month == dateOfBirth!.month && now.day < dateOfBirth!.day)) {
+    final age = now.year - dateOfBirth.year;
+    if (now.month < dateOfBirth.month || 
+        (now.month == dateOfBirth.month && now.day < dateOfBirth.day)) {
       return age - 1 >= 18;
     }
     return age >= 18;
   }
 
-  String get fullName => '${name ?? ''} ${surname ?? ''}'.trim();
-
-  UserEntity touch() {
-    return copyWith(updatedAt: DateTime.now());
-  }
+  String get fullName => '$name $surname'.trim();
   
-  // Método para crear una copia del objeto con algunos campos modificados para mantener immutabilidad
   UserEntity copyWith({
     UserId? id,
     Email? email,
@@ -57,6 +57,7 @@ class UserEntity {
     String? surname,
     String? phone,
     DateTime? dateOfBirth,
+    List<String>? dietaryRestrictions,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -67,6 +68,7 @@ class UserEntity {
       surname: surname ?? this.surname,
       phone: phone ?? this.phone,
       dateOfBirth: dateOfBirth ?? this.dateOfBirth,
+      dietaryRestrictions: dietaryRestrictions ?? this.dietaryRestrictions,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );

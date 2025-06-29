@@ -15,7 +15,7 @@ class UserRepositoryImpl implements UserRepository {
     return _pool.withConnection((connection) async {
       final result = await connection.execute(
         r'''
-        SELECT user_uid, user_email, user_name, user_surname, user_phone, user_dob, user_created_at
+        SELECT user_uid, user_email, user_name, user_surname, user_dob, user_phone, user_dietary_restrictions, user_created_at, user_modified_at
         FROM users
         WHERE user_uid = $1
         ''',
@@ -24,7 +24,7 @@ class UserRepositoryImpl implements UserRepository {
 
       if (result.isEmpty) return null;
 
-      final userModel = UserModel.fromDatabaseRow(result.first);
+      final userModel = UserModel.fromPostgres(result.first.toColumnMap());
       return userModel.toDomain();
     });
   }
@@ -34,7 +34,7 @@ class UserRepositoryImpl implements UserRepository {
     return _pool.withConnection((connection) async {
       final result = await connection.execute(
         r'''
-        SELECT user_uid, user_email, user_name, user_surname, user_phone, user_dob, user_created_at
+        SELECT user_uid, user_email, user_name, user_surname, user_dob, user_phone, user_dietary_restrictions, user_created_at, user_modified_at
         FROM users
         WHERE user_email = $1
         ''',
@@ -43,7 +43,7 @@ class UserRepositoryImpl implements UserRepository {
       
       if (result.isEmpty) return null;
       
-      final userModel = UserModel.fromDatabaseRow(result.first);
+      final userModel = UserModel.fromPostgres(result.first.toColumnMap());
       return userModel.toDomain();
     });
   }
@@ -83,17 +83,18 @@ class UserRepositoryImpl implements UserRepository {
       
       await connection.execute(
         r'''
-        INSERT INTO users (user_uid, user_email, user_name, user_surname, user_phone, user_dob, user_created_at)
-        VALUES ($1, $2, $3, $4, $5, $6, $7)
+        INSERT INTO users (user_uid, user_email, user_name, user_surname, user_dob, user_phone, user_dietary_restrictions, user_created_at)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
         ''',
         parameters: [
           userModel.userUid,
           userModel.userEmail,
           userModel.userName,
           userModel.userSurname,
-          userModel.userPhone,
           userModel.userDob,
-          userModel.userCreatedAt ?? DateTime.now(),
+          userModel.userPhone,
+          userModel.userDietaryRestrictions,
+          DateTime.now(),
         ],
       );
     });
@@ -108,7 +109,8 @@ class UserRepositoryImpl implements UserRepository {
         r'''
         UPDATE users 
         SET user_email = $2, user_name = $3, user_surname = $4, 
-            user_phone = $5, user_dob = $6
+            user_dob = $5, user_phone = $6, user_dietary_restrictions = $7,
+            user_modified_at = $8
         WHERE user_uid = $1
         ''',
         parameters: [
@@ -116,8 +118,10 @@ class UserRepositoryImpl implements UserRepository {
           userModel.userEmail,
           userModel.userName,
           userModel.userSurname,
-          userModel.userPhone,
           userModel.userDob,
+          userModel.userPhone,
+          userModel.userDietaryRestrictions,
+          DateTime.now(),
         ],
       );
     });
@@ -140,14 +144,15 @@ class UserRepositoryImpl implements UserRepository {
     return _pool.withConnection((connection) async {
       final result = await connection.execute(
         '''
-        SELECT user_uid, user_email, user_name, user_surname, user_phone, user_dob, user_created_at
+        SELECT user_uid, user_email, user_name, user_surname, 
+               user_dob, user_phone, user_dietary_restrictions, user_created_at, user_modified_at
         FROM users
         ORDER BY user_created_at DESC
         ''',
       );
       
       return result
-          .map((row) => UserModel.fromDatabaseRow(row).toDomain())
+          .map((row) => UserModel.fromPostgres(row.toColumnMap()).toDomain())
           .toList();
     });
   }

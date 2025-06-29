@@ -154,7 +154,7 @@ class ProductRepositoryImpl implements ProductRepository {
 
     if (productResult.product != null) {
       final dto = OpenFoodFactsProductDto.fromOpenFoodFactsSDK(
-          productResult.product!);
+          productResult.product!,);
       return dto.toDomain();
     }
     return null;

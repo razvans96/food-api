@@ -15,40 +15,44 @@ class UserResponseDto {
   final String fullName;
 
   @JsonKey(name: 'user_name')
-  final String? userName;
+  final String userName;
 
   @JsonKey(name: 'user_surname')
-  final String? userSurname;
+  final String userSurname;
+
+  @JsonKey(name: 'user_dob')
+  final DateTime userDob;
+  
+  @JsonKey(name: 'user_profile_completeness_percentage')
+  final int profileCompletenessPercentage;
+
+  @JsonKey(name: 'user_is_adult')
+  final bool isAdult;
 
   @JsonKey(name: 'user_phone')
   final String? userPhone;
 
-  @JsonKey(name: 'user_dob')
-  final String? userDob;
+  @JsonKey(name: 'user_dietary_restrictions')
+  final List<String>? userDietaryRestrictions;
 
-  @JsonKey(name: 'created_at')
-  final DateTime createdAt;
+  @JsonKey(name: 'user_created_at')
+  final DateTime? createdAt;
 
-  @JsonKey(name: 'updated_at')
+  @JsonKey(name: 'user_updated_at')
   final DateTime? updatedAt;
-
-  @JsonKey(name: 'has_complete_profile')
-  final bool hasCompleteProfile;
-
-  @JsonKey(name: 'is_adult')
-  final bool isAdult;
 
   const UserResponseDto({
     required this.userUid,
     required this.userEmail,
-    required this.createdAt,
-    required this.hasCompleteProfile,
-    required this.isAdult,
     required this.fullName,
-    this.userName,
-    this.userSurname,
+    required this.userName,
+    required this.userSurname,
+    required this.userDob,
+    required this.isAdult,
+    required this.profileCompletenessPercentage,
     this.userPhone,
-    this.userDob,
+    this.userDietaryRestrictions,
+    this.createdAt,
     this.updatedAt,
   });
 
@@ -59,12 +63,13 @@ class UserResponseDto {
       fullName: entity.fullName,
       userName: entity.name,
       userSurname: entity.surname,
+      userDob: entity.dateOfBirth,
+      isAdult: entity.isAdult,
+      profileCompletenessPercentage: entity.profileCompletenessPercentage,
       userPhone: entity.phone,
-      userDob: entity.dateOfBirth?.toIso8601String(),
+      userDietaryRestrictions: entity.dietaryRestrictions,
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
-      hasCompleteProfile: entity.hasCompleteProfile(),
-      isAdult: entity.isAdult(),
     );
   }
 

@@ -16,19 +16,24 @@ class CreateUserRequestDto {
   @JsonKey(name: 'user_surname')
   final String userSurname;
   
+  @JsonKey(name: 'user_dob')
+  final DateTime userDob;
+  
   @JsonKey(name: 'user_phone')
   final String? userPhone;
+
+  @JsonKey(name: 'user_dietary_restrictions')
+  final List<String>? userDietaryRestrictions;
   
-  @JsonKey(name: 'user_dob')
-  final String? userDob;
 
   const CreateUserRequestDto({
     required this.userUid,
     required this.userEmail,
     required this.userName,
     required this.userSurname,
+    required this.userDob,
     this.userPhone,
-    this.userDob,
+    this.userDietaryRestrictions,
   });
 
   factory CreateUserRequestDto.fromJson(Map<String, dynamic> json) => 
@@ -52,13 +57,17 @@ class UpdateUserRequestDto {
   final String? userPhone;
   
   @JsonKey(name: 'user_dob')
-  final String? userDob;
+  final DateTime? userDob;
+
+  @JsonKey(name: 'user_dietary_restrictions')
+  final List<String>? userDietaryRestrictions;
 
   const UpdateUserRequestDto({
     this.userName,
     this.userSurname,
     this.userPhone,
     this.userDob,
+    this.userDietaryRestrictions,
   });
 
   factory UpdateUserRequestDto.fromJson(Map<String, dynamic> json) => 

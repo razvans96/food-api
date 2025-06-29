@@ -7,14 +7,11 @@ import 'package:food_api/domain/use_cases/create_user_use_case.dart';
 import 'package:food_api/domain/use_cases/get_user_by_id_use_case.dart';
 import 'package:food_api/domain/use_cases/update_user_use_case.dart';
 
-
 class UserController {
-
-  
   final GetUserByIdUseCase _getUserByIdUseCase;
   final CreateUserUseCase _createUserUseCase;
   final UpdateUserUseCase _updateUserUseCase;
-  
+
   UserController(
     this._getUserByIdUseCase,
     this._createUserUseCase,
@@ -26,15 +23,14 @@ class UserController {
       final json = await context.request.json() as Map<String, dynamic>;
       final requestDto = CreateUserRequestDto.fromJson(json);
 
-      final userEntity =  await _createUserUseCase.execute(
+      final userEntity = await _createUserUseCase.execute(
         uid: requestDto.userUid,
         email: requestDto.userEmail,
         name: requestDto.userName,
         surname: requestDto.userSurname,
+        dateOfBirth: requestDto.userDob,
         phone: requestDto.userPhone,
-        dateOfBirth: requestDto.userDob != null 
-            ? DateTime.tryParse(requestDto.userDob!) 
-            : null,
+        dietaryRestrictions: requestDto.userDietaryRestrictions,
       );
 
       final responseDto = UserResponseDto.fromDomain(userEntity);
@@ -46,13 +42,10 @@ class UserController {
           responseDto,
         ).toJson((user) => user.toJson()),
       );
-
     } on DomainFailure catch (e) {
-
       return Response.json(
         statusCode: 400,
-        body: ApiResponse<UserResponseDto>.error(e.message)
-            .toJsonWithoutData(),
+        body: ApiResponse<UserResponseDto>.error(e.message).toJsonWithoutData(),
       );
     } on FormatException catch (e) {
       return Response.json(
@@ -62,7 +55,6 @@ class UserController {
         ).toJsonWithoutData(),
       );
     } catch (e) {
-      
       return Response.json(
         statusCode: 500,
         body: ApiResponse<UserResponseDto>.error(
@@ -92,13 +84,13 @@ class UserController {
           responseDto,
         ).toJson((user) => user.toJson()),
       );
-
     } on DomainFailure catch (e) {
       return Response.json(
         statusCode: 400,
         body: ApiResponse<UserResponseDto>.error(e.message).toJsonWithoutData(),
       );
     } catch (e) {
+      print(e);
       return Response.json(
         statusCode: 500,
         body: ApiResponse<UserResponseDto>.error(

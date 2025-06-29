@@ -13,8 +13,12 @@ CreateUserRequestDto _$CreateUserRequestDtoFromJson(
       userEmail: json['user_email'] as String,
       userName: json['user_name'] as String,
       userSurname: json['user_surname'] as String,
+      userDob: DateTime.parse(json['user_dob'] as String),
       userPhone: json['user_phone'] as String?,
-      userDob: json['user_dob'] as String?,
+      userDietaryRestrictions:
+          (json['user_dietary_restrictions'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList(),
     );
 
 Map<String, dynamic> _$CreateUserRequestDtoToJson(
@@ -24,8 +28,9 @@ Map<String, dynamic> _$CreateUserRequestDtoToJson(
       'user_email': instance.userEmail,
       'user_name': instance.userName,
       'user_surname': instance.userSurname,
+      'user_dob': instance.userDob.toIso8601String(),
       'user_phone': instance.userPhone,
-      'user_dob': instance.userDob,
+      'user_dietary_restrictions': instance.userDietaryRestrictions,
     };
 
 UpdateUserRequestDto _$UpdateUserRequestDtoFromJson(
@@ -34,7 +39,13 @@ UpdateUserRequestDto _$UpdateUserRequestDtoFromJson(
       userName: json['user_name'] as String?,
       userSurname: json['user_surname'] as String?,
       userPhone: json['user_phone'] as String?,
-      userDob: json['user_dob'] as String?,
+      userDob: json['user_dob'] == null
+          ? null
+          : DateTime.parse(json['user_dob'] as String),
+      userDietaryRestrictions:
+          (json['user_dietary_restrictions'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList(),
     );
 
 Map<String, dynamic> _$UpdateUserRequestDtoToJson(
@@ -43,5 +54,6 @@ Map<String, dynamic> _$UpdateUserRequestDtoToJson(
       'user_name': instance.userName,
       'user_surname': instance.userSurname,
       'user_phone': instance.userPhone,
-      'user_dob': instance.userDob,
+      'user_dob': instance.userDob?.toIso8601String(),
+      'user_dietary_restrictions': instance.userDietaryRestrictions,
     };

@@ -120,11 +120,11 @@ class ProductModel {
       productNovaGroup: postgresData['product_nova_group'] as int?,
       productCreatedAt: postgresData['product_created_at'] as DateTime?,
       productUpdatedAt: postgresData['product_updated_at'] as DateTime?,
-      productNutritionalData: _serializeJsonbField(postgresData['product_nutritional_data']),
-      productIngredients: _serializeJsonbField(postgresData['product_ingredients']),
-      productAllergens: _serializeJsonbField(postgresData['product_allergens']),
-      productAdditives: _serializeJsonbField(postgresData['product_additives']),
-      productCategories: _serializeJsonbField(postgresData['product_categories']),
+      productNutritionalData: _deserializeJsonbField(postgresData['product_nutritional_data']),
+      productIngredients: _deserializeJsonbField(postgresData['product_ingredients']),
+      productAllergens: _deserializeJsonbField(postgresData['product_allergens']),
+      productAdditives: _deserializeJsonbField(postgresData['product_additives']),
+      productCategories: _deserializeJsonbField(postgresData['product_categories']),
     );
   }
 
@@ -179,7 +179,7 @@ class ProductModel {
     }
   }
   
-  static String? _serializeJsonbField(dynamic value) {
+  static String? _deserializeJsonbField(dynamic value) {
     if (value == null) return null;
     if (value is String) return value;
     if (value is Map || value is List) return json.encode(value);

@@ -13,8 +13,9 @@ class CreateUserUseCase {
     required String email,
     required String name,
     required String surname,
+    required DateTime dateOfBirth,
     String? phone,
-    DateTime? dateOfBirth,
+    List<String>? dietaryRestrictions,
   }) async {
     final userId = UserId(uid);
     final userEmail = Email(email);
@@ -29,11 +30,11 @@ class CreateUserUseCase {
       email: userEmail,
       name: name,
       surname: surname,
-      phone: phone,
       dateOfBirth: dateOfBirth,
-      createdAt: DateTime.now(),
+      phone: phone,
+      dietaryRestrictions: dietaryRestrictions,
     );
-    
+
     final existingEmail = await _userRepository.existsByEmail(userEmail);
     if (existingEmail) {
       await _userRepository.updateUser(user);
