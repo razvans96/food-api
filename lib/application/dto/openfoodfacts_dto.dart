@@ -76,10 +76,10 @@ class OpenFoodFactsProductDto {
       ecoscoreGrade: openFoodProduct.ecoscoreGrade,
       novaGroup: openFoodProduct.novaGroup,
       nutriments: openFoodProduct.nutriments?.toJson(),
-      ingredientsTags: openFoodProduct.ingredientsTags,
-      allergensTags: openFoodProduct.allergens?.names,
-      additivesTags: openFoodProduct.additives?.names,
-      categoriesTags: openFoodProduct.categoriesTags,
+      ingredientsTags: openFoodProduct.ingredientsTagsInLanguages?.values.first,
+      allergensTags: openFoodProduct.allergensTagsInLanguages?.values.first,
+      additivesTags: openFoodProduct.additivesTagsInLanguages?.values.first,
+      categoriesTags: openFoodProduct.categoriesTagsInLanguages?.values.first,
     );
   }
 
