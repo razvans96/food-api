@@ -81,7 +81,7 @@ Middleware _userControllerProvider() {
     (context) => UserController(
       context.read<GetUserByIdUseCase>(),
       context.read<CreateUserUseCase>(),
-      context.read<UpdateUserUseCase>(),
+      //context.read<UpdateUserUseCase>(),
     ),
   );
 }

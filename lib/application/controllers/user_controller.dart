@@ -5,17 +5,17 @@ import 'package:food_api/application/dto/user_response_dto.dart';
 import 'package:food_api/domain/failures/domain_failures.dart';
 import 'package:food_api/domain/use_cases/create_user_use_case.dart';
 import 'package:food_api/domain/use_cases/get_user_by_id_use_case.dart';
-import 'package:food_api/domain/use_cases/update_user_use_case.dart';
+//import 'package:food_api/domain/use_cases/update_user_use_case.dart';
 
 class UserController {
   final GetUserByIdUseCase _getUserByIdUseCase;
   final CreateUserUseCase _createUserUseCase;
-  final UpdateUserUseCase _updateUserUseCase;
+  //final UpdateUserUseCase _updateUserUseCase;
 
   UserController(
     this._getUserByIdUseCase,
     this._createUserUseCase,
-    this._updateUserUseCase,
+    //this._updateUserUseCase,
   );
 
   Future<Response> registerUser(RequestContext context) async {
